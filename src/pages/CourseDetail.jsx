@@ -25,6 +25,13 @@ export default function CourseDetail() {
     },
   });
 
+  const checkoutMutation = useMutation({
+    mutationFn: () => api.post(`/courses/${id}/checkout`),
+    onSuccess: (res) => {
+      window.location.href = res.data.url;
+    },
+  });
+
   if (isLoading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
@@ -33,12 +40,21 @@ export default function CourseDetail() {
       <p className="text-gray-600 mt-2">{course.description}</p>
       <p className="mt-2 font-semibold">Rs. {course.price}</p>
 
-      <button
-        onClick={() => enrollMutation.mutate()}
-        className="bg-blue-600 text-white px-4 py-2 rounded mt-4"
-      >
-        Enroll Now
-      </button>
+      <div className="mt-4">
+        <button
+          onClick={() => enrollMutation.mutate()}
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+        >
+          Enroll Now
+        </button>
+
+        <button
+          onClick={() => checkoutMutation.mutate()}
+          className="bg-green-600 text-white px-4 py-2 rounded ml-2"
+        >
+          Buy Now (Stripe)
+        </button>
+      </div>
 
       {progress && (
         <div className="mt-6">
