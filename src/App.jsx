@@ -7,6 +7,8 @@ import CourseDetail from './pages/CourseDetail';
 import QuizPage from './pages/QuizPage';
 import Success from './pages/Success';
 import Cancel from './pages/Cancel';
+import AdminDashboard from './pages/AdminDashboard';
+import InstructorDashboard from './pages/InstructorDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -28,6 +30,22 @@ function App() {
         <Route path="/quizzes/:id" element={<QuizPage />} />
         <Route path="/success" element={<Success />} />
         <Route path="/cancel" element={<Cancel />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructor"
+          element={
+            <ProtectedRoute>
+              <InstructorDashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/" element={<Login />} />
       </Routes>
     </BrowserRouter>
