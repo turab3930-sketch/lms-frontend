@@ -32,6 +32,14 @@ export default function CourseDetail() {
     },
   });
 
+  const completeLessonMutation = useMutation({
+    mutationFn: (lessonId) => api.post(`/lessons/${lessonId}/complete`),
+    onSuccess: () => {
+      alert('Lesson marked complete!');
+      queryClient.invalidateQueries({ queryKey: ['progress', id] });
+    },
+  });
+
   if (isLoading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
@@ -64,6 +72,21 @@ export default function CourseDetail() {
           <ProgressBar percentage={progress.percentage} />
         </div>
       )}
+
+      <div className="mt-8">
+        <h3 className="text-lg font-bold mb-2">Lessons</h3>
+        {course.lessons && course.lessons.map((lesson) => (
+          <div key={lesson.id} className="flex justify-between items-center border-b py-2">
+            <span>{lesson.title}</span>
+            <button
+              onClick={() => completeLessonMutation.mutate(lesson.id)}
+              className="bg-gray-200 text-sm px-3 py-1 rounded hover:bg-green-200"
+            >
+              Mark Complete
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
